@@ -1,24 +1,39 @@
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
 from gremlin_python.process.anonymous_traversal import traversal
-from gremlin_python.process.traversal import Cardinality
+import json
+import time
 
-# Code này chạy được và đã thêm được đỉnh cạnh, nhưng không có property dạng list
+# Chạy cmd trong file confiPropertyConsole.md trong Gremlin Console trước khi run file này
 
-connection = DriverRemoteConnection('ws://192.168.1.65:8182/gremlin', 'g') # địa chỉ ip là của Gremlin-server
-# The connection should be closed on shut down to close open connections with connection.close()
+
+def read_data(path):
+    f = open(path, 'r')
+    data = json.load(f)
+    return data
+
+
+def add_wallet(wallet):
+    n = g.addV('wallet').property('address', wallet['address']).next()
+    for item in dict(wallet).items():
+        if isinstance(item[1], list):
+            for e in item[1]:
+                g.V(n).property(item[0], e).next()
+        else:
+            g.V(n).property(item[0], item[1]).next()
+    v = g.V(n).valueMap().next()
+    print(v)
+
+
+data_import = read_data('1e2_nodes_wallet.json')
+
+connection = DriverRemoteConnection('ws://0.0.0.0:8182/gremlin', 'g')
 g = traversal().withRemote(connection)
 
-# Reuse 'g' across the application
-
-v1 = g.addV(
-    'wallet'
-).property(
-    'address',
-    '0xaced50ad963cb0ad712af7d1123341407ee033f0'
-).next()
-
-# g.V().drop().next()
-v = g.V().count().next()
-print(v)
-
+start = time.time()
+for w in data_import:
+    add_wallet(w)
+finish = time.time()
+print(finish - start)
 connection.close()
+
+
