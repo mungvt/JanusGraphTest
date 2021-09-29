@@ -1,1 +1,22 @@
 # JanusGraphTest
+## Concept
+- Home page: https://janusgraph.org/
+- Doc JanusGraph: https://docs.janusgraph.org/
+- Các kiến thức thu được:
+  - JanusGraph thực chất là 1 member của framework graph computing Apache TinkerPop https://tinkerpop.apache.org/
+  - JanusGraph sử dụng: 
+    - Storage Backends layer để lưu trữ dữ liệu, có thể tùy chọn giữa HBase, Cassandra, InMemory Storage,... https://docs.janusgraph.org/storage-backend/
+    - Query Language là Gremlin là một ngôn ngữ truy vấn trên graph db (tương tự như cypher của neo4j). Được viết dựa trên ngôn ngữ Groovy. Groovy lại đựợc viết dựa trên Java. https://docs.janusgraph.org/getting-started/gremlin/
+  - Về setup Storage Backend: Khánh nghiên cứu
+  - Về Programming: 
+    - Graph này sử dụng Gremlin làm ngôn ngữ truy vấn nên cần phải học cách sử dụng và lập trình với gremlin
+    - Sử dụng Gremlin Console để khởi tạo graph với property dạng mảng thì được, tham khảo cuốn sách khá chi tiết ở đây: https://kelvinlawrence.net/book/Gremlin-Graph-Guide.html
+    - Tuy nhiên việc sử dụng driver (Python, Java) để kết nối với Gremlin Sever thì hiện tại không có nhiều tài liệu hướng dẫn
+      - Đối với python: Sử dụng thư viện gremlin_python https://pypi.org/project/gremlinpython/ nhưng đang gặp vấn đề với mảng 
+      - Đối với Java: Sử dụng Gremlin-driver: https://mvnrepository.com/artifact/org.apache.tinkerpop/gremlin-driver nhưng đang gặp khó khăn trong việc setup dependencies và code.
+      - Đối với Groovy: Là ngôn ngữ base của Gremlin có thể sử dụng code trong cuốn Practice Gremlin ở trên nhưng cũng đang gặp khó khăn trong việc setup dependencies như Java.
+- Hướng research của em:
+  - Em thấy việc programing là điều đầu tiên cần phải làm được rồi mới tính đến việc chọn Storage Backend
+  - Nên em đã chọn sử dụng Storage Backend là InMemmory, TinkerPop có hỗ trợ dạng lưu trữ này dưới thư viện TinkerGraph: https://kelvinlawrence.net/book/Gremlin-Graph-Guide.html#ld. 
+  - Đã test thử và dùng tốt với Gremlin console nhưng không thấy setup với Python. Việc tương tác với Java có thể tốt hơn do TinkerGraph viết bằng java.
+  - Ngoài ra em cũng thử thêm các thư viện Database Mapping ORM/OGM như Ferma của Java, Goblin của Python nhưng cũng không được: https://tinkerpop.apache.org/index.html#language-drivers
