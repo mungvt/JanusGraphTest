@@ -5,7 +5,7 @@
 ./bin/janusgraph-server.sh console trava.yaml
 - Start Gremlin Console để connect được đến server
 + ./bin/gremlin.sh
-các command để connect
+- các command để connect
 + :remote connect tinkerpop.server bin/remote.yaml session
 + :remote console
 + graph
